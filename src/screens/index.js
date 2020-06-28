@@ -1,4 +1,5 @@
-import Home from './Home';
+import Launches from './Launches';
 import Settings from './Settings';
+import Agencies from './Agencies';
 
-export { Home, Settings };
+export { Launches, Settings, Agencies };
