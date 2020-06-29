@@ -7,13 +7,13 @@ const LaunchesDispatchContext = createContext();
 function launchesReducer(state, action) {
   switch (action.type) {
     case 'start update': {
-      return { status: 'started' };
+      return { status: 'loading' };
     }
     case 'finish update': {
-      return { status: 'finish', launches: action.launches };
+      return { status: 'finish', launches: action.payload };
     }
     case 'fail update': {
-      return { status: 'fail' };
+      return { status: 'error', error: action.payload };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -52,16 +52,16 @@ function useLaunchesDispatch() {
   return context;
 }
 
-async function updateLaunches(dispatch) {
+async function updateLaunches(dispatch, callback) {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get('https://launchlibrary.net/1.4/launch');
-    dispatch({ type: 'finish update', launches: response.data.launches });
+    dispatch({ type: 'finish update', payload: response.data.launches });
+    callback(response.data.launches);
 
-    console.log(response.data.launches);
     return response.data.launches;
   } catch (error) {
-    dispatch({ type: 'fail update' });
+    dispatch({ type: 'fail update', payload: error });
     console.error(error);
   }
 }
