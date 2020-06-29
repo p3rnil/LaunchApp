@@ -4,11 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Launches, Settings, Agencies } from './src/screens/index';
-import { LaunchDetail } from './src/components/index';
+import { LaunchDetail, AgencyDetail } from './src/components/index';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 const LaunchesStack = createStackNavigator();
+const AgenciesStack = createStackNavigator();
 
 const LaunchesStackScreen = () => {
   return (
@@ -24,6 +25,23 @@ const LaunchesStackScreen = () => {
         options={({ route }) => ({ title: route.params.item.name })}
       />
     </LaunchesStack.Navigator>
+  );
+};
+
+const AgenciesStackScreen = () => {
+  return (
+    <AgenciesStack.Navigator>
+      <AgenciesStack.Screen
+        name="Agencies"
+        component={Agencies}
+        options={{ headerShown: false }}
+      />
+      <AgenciesStack.Screen
+        name="AgencyDetail"
+        component={AgencyDetail}
+        options={({ route }) => ({ title: route.params.item.name })}
+      />
+    </AgenciesStack.Navigator>
   );
 };
 
@@ -52,7 +70,7 @@ const App = () => {
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
         }}>
-        <Tab.Screen name="Agencies" component={Agencies} />
+        <Tab.Screen name="Agencies" component={AgenciesStackScreen} />
         <Tab.Screen name="Launches" component={LaunchesStackScreen} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>

@@ -1,11 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { AgenciesList } from '../components/index';
+import { AgencyProvider } from '../context/index';
 
-const Agencies = () => {
+const Agencies = ({ navigation }) => {
+  const handlePress = (item) => {
+    navigation.navigate('AgencyDetail', {
+      item,
+    });
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Agencies!</Text>
-    </View>
+    <AgencyProvider>
+      <AgenciesList handlePress={handlePress} />
+    </AgencyProvider>
   );
 };
 

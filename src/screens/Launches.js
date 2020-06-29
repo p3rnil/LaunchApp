@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { LaunchesList } from '../components/index';
 import { LaunchProvider } from '../context/index';
 
@@ -12,17 +11,9 @@ const Launches = ({ navigation }) => {
 
   return (
     <LaunchProvider>
-      <View style={styles.view}>
-        <LaunchesList handlePress={handlePress} />
-      </View>
+      <LaunchesList handlePress={handlePress} />
     </LaunchProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-  },
-});
 
 export default Launches;
