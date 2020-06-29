@@ -9,7 +9,7 @@ import {
   AgencyProvider,
   useAgenciesState,
   useAgenciesDispatch,
-  updateAgencies,
+  getAgencies,
 } from './AgenciesContext';
 
 export {
@@ -20,5 +20,5 @@ export {
   AgencyProvider,
   useAgenciesState,
   useAgenciesDispatch,
-  updateAgencies,
+  getAgencies,
 };

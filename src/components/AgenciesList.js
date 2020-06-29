@@ -9,7 +9,7 @@ import {
 import {
   useAgenciesState,
   useAgenciesDispatch,
-  updateAgencies,
+  getAgencies,
 } from '../context/AgenciesContext';
 
 const AgenciesList = ({ handlePress }) => {
@@ -19,7 +19,7 @@ const AgenciesList = ({ handlePress }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    updateAgencies(agenciesDispatch, (data) => {
+    getAgencies(agenciesDispatch, (data) => {
       setAgencies(data);
     });
   }, [agenciesDispatch]);
@@ -27,7 +27,7 @@ const AgenciesList = ({ handlePress }) => {
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await updateAgencies(agenciesDispatch, (data) => {
+    await getAgencies(agenciesDispatch, (data) => {
       setAgencies(data);
     });
     setIsRefreshing(false);

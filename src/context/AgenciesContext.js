@@ -52,7 +52,7 @@ function useAgenciesDispatch() {
   return context;
 }
 
-async function updateAgencies(dispatch, callback) {
+async function getAgencies(dispatch, callback) {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get('https://launchlibrary.net/1.4/agency');
@@ -66,9 +66,4 @@ async function updateAgencies(dispatch, callback) {
   }
 }
 
-export {
-  AgencyProvider,
-  useAgenciesState,
-  useAgenciesDispatch,
-  updateAgencies,
-};
+export { AgencyProvider, useAgenciesState, useAgenciesDispatch, getAgencies };
