@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { LaunchesList } from '../components/index';
 import { LaunchProvider } from '../context/index';
 
