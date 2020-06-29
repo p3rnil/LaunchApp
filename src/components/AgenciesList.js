@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   SafeAreaView,
+  View,
   Text,
   FlatList,
   StyleSheet,
@@ -12,15 +13,39 @@ import {
   getAgencies,
 } from '../context/AgenciesContext';
 
+//TODO: Make agency card
 const AgenciesList = ({ handlePress }) => {
   const [agencies, setAgencies] = useState(null);
   const { status, error } = useAgenciesState();
   const agenciesDispatch = useAgenciesDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isOptimistic, setIsOptimistic] = useState(true);
+  const optimisticUIItems = useRef([]);
+
+  useEffect(() => {
+    const createOptimisticUIList = (length) => {
+      const array = [];
+
+      for (let i = 0; i < length; i++) {
+        array.push(
+          <View
+            style={[
+              styles.optimisticItem,
+              { width: `${Math.floor(Math.random() * 101) + 25}%` },
+            ]}
+          />,
+        );
+      }
+      return array;
+    };
+
+    optimisticUIItems.current = createOptimisticUIList(45);
+  }, []);
 
   useEffect(() => {
     getAgencies(agenciesDispatch, (data) => {
       setAgencies(data);
+      setIsOptimistic(false);
     });
   }, [agenciesDispatch]);
 
@@ -35,7 +60,17 @@ const AgenciesList = ({ handlePress }) => {
 
   return (
     <SafeAreaView style={styles.view}>
-      {status !== 'error' ? (
+      {isOptimistic ? (
+        <SafeAreaView style={styles.view}>
+          <FlatList
+            data={optimisticUIItems.current}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => item}
+          />
+        </SafeAreaView>
+      ) : null}
+
+      {status !== 'error' && !isOptimistic ? (
         <FlatList
           data={agencies}
           keyExtractor={(item) => item.id.toString()}
@@ -60,6 +95,11 @@ const AgenciesList = ({ handlePress }) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+  },
+  optimisticItem: {
+    backgroundColor: 'pink',
+    height: 15,
+    marginBottom: 2,
   },
 });
 
