@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { SafeAreaView, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {
   useLaunchesState,
   useLaunchesDispatch,
   updateLaunches,
 } from '../context/LaunchContext';
 
-const LaunchesList = () => {
+const LaunchesList = ({ handlePress }) => {
   const [launches, setLaunches] = useState(null);
   const { status, error } = useLaunchesState();
   const launchesDispatch = useLaunchesDispatch();
@@ -33,7 +39,14 @@ const LaunchesList = () => {
         <FlatList
           data={launches}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => {
+                handlePress(item);
+              }}>
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
+          )}
           refreshing={isRefreshing}
           onRefresh={handleRefresh}
         />
