@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { SafeAreaView, View, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  RefreshControl,
+} from 'react-native';
 import {
   useLaunchesState,
   useLaunchesDispatch,
@@ -72,8 +79,13 @@ const LaunchesList = ({ handlePress }) => {
           renderItem={({ item }) => (
             <LaunchCard data={item} onPress={() => handlePress(item)} />
           )}
-          refreshing={isRefreshing}
-          onRefresh={handleRefresh}
+          refreshControl={
+            <RefreshControl
+              tintColor="tomato"
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }
         />
       ) : (
         <Text>{error}</Text>
