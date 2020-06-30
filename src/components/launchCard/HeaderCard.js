@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 // TODO: Make status component
-const HeaderCard = ({ name, location, date, isGo }) => {
+const HeaderCard = ({ name, location, date, status }) => {
   return (
     <View style={styles.header}>
-      <View style={styles.status} />
+      <View style={[styles.status, status === 1 ? styles.go : styles.tba]} />
       <View style={styles.infoHeader}>
         <Text style={styles.textColor} numberOfLines={1} ellipsizeMode="tail">
           {name}
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   status: {
-    backgroundColor: '#7aae79',
     width: 50,
     height: 50,
     borderRadius: 50,
@@ -36,6 +35,12 @@ const styles = StyleSheet.create({
   },
   infoHeader: {
     flex: 1,
+  },
+  go: {
+    backgroundColor: '#7aae79',
+  },
+  tba: {
+    backgroundColor: 'coral',
   },
 });
 

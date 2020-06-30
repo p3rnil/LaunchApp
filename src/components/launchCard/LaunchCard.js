@@ -12,6 +12,7 @@ const LaunchCard = ({ data, onPress }) => {
           name={data.name}
           location={data.location.pads[0].name}
           date={new Date(data.net).toDateString()}
+          status={data.status}
         />
         <ContentCard
           imgURL={data.rocket.imageURL}
