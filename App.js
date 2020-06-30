@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -47,34 +48,37 @@ const AgenciesStackScreen = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Launches"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <>
+      <StatusBar barStyle="dark-content" translucent={true} />
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="Launches"
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
 
-            if (route.name === 'Launches') {
-              iconName = focused ? 'ios-rocket' : 'ios-rocket';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-settings' : 'ios-settings';
-            } else if (route.name === 'Agencies') {
-              iconName = focused ? 'ios-list' : 'ios-list';
-            }
+              if (route.name === 'Launches') {
+                iconName = focused ? 'ios-rocket' : 'ios-rocket';
+              } else if (route.name === 'Settings') {
+                iconName = focused ? 'ios-settings' : 'ios-settings';
+              } else if (route.name === 'Agencies') {
+                iconName = focused ? 'ios-list' : 'ios-list';
+              }
 
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}>
-        <Tab.Screen name="Agencies" component={AgenciesStackScreen} />
-        <Tab.Screen name="Launches" component={LaunchesStackScreen} />
-        <Tab.Screen name="Settings" component={Settings} />
-      </Tab.Navigator>
-    </NavigationContainer>
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+          }}>
+          <Tab.Screen name="Agencies" component={AgenciesStackScreen} />
+          <Tab.Screen name="Launches" component={LaunchesStackScreen} />
+          <Tab.Screen name="Settings" component={Settings} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 };
 
