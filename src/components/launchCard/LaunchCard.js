@@ -15,6 +15,8 @@ const LaunchCard = ({ data, onPress }) => {
         />
         <ContentCard
           imgURL={data.rocket.imageURL}
+          launchDate={data.net}
+          launchStatus={data.status}
           description={data.missions[0].description}
         />
       </View>

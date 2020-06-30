@@ -1,9 +1,9 @@
 import React from 'react';
 import { Divider } from '../common/index';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import Countdown from '../common/Countdown';
 
-// TODO: Make countdown
-const ContentCard = ({ imgURL, description }) => {
+const ContentCard = ({ imgURL, launchDate, description, launchStatus }) => {
   return (
     <View>
       <Image
@@ -13,7 +13,7 @@ const ContentCard = ({ imgURL, description }) => {
         }}
       />
       <View style={styles.section}>
-        <Text style={[styles.timer, styles.textColor]}>00 : 11 : 06 : 34</Text>
+        <Countdown propDate={launchStatus === 1 ? launchDate : ''} />
         <Divider />
         <Text style={[styles.description, styles.textColor]}>
           {description}
@@ -36,12 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
   },
-  timer: {
-    fontSize: 25,
-  },
-  description: {
-    //paddingHorizontal: 15,
-  },
+  description: {},
 });
 
 export default ContentCard;
