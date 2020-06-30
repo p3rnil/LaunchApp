@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { SafeAreaView, View, Text, FlatList, StyleSheet } from 'react-native';
 import {
   useLaunchesState,
   useLaunchesDispatch,
   updateLaunches,
 } from '../context/LaunchContext';
+import LaunchCard from './launchCard/index';
 
-//TODO: Make launch card
+//TODO: Update Optimistic
 const LaunchesList = ({ handlePress }) => {
   const [launches, setLaunches] = useState(null);
   const { status, error } = useLaunchesState();
@@ -72,15 +66,11 @@ const LaunchesList = ({ handlePress }) => {
 
       {status !== 'error' && !isOptimistic ? (
         <FlatList
+          style={styles.list}
           data={launches}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                handlePress(item);
-              }}>
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
+            <LaunchCard data={item} onPress={() => handlePress(item)} />
           )}
           refreshing={isRefreshing}
           onRefresh={handleRefresh}
@@ -95,6 +85,9 @@ const LaunchesList = ({ handlePress }) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+  },
+  list: {
+    paddingHorizontal: 15,
   },
   optimisticItem: {
     backgroundColor: 'pink',

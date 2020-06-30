@@ -55,7 +55,9 @@ function useLaunchesDispatch() {
 async function updateLaunches(dispatch, callback) {
   try {
     dispatch({ type: 'start update' });
-    const response = await axios.get('https://launchlibrary.net/1.4/launch');
+    const response = await axios.get(
+      'https://launchlibrary.net/1.4/launch/next/10',
+    );
     dispatch({ type: 'finish update', payload: response.data.launches });
     callback(response.data.launches);
 
