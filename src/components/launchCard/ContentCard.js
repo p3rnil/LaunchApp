@@ -15,7 +15,10 @@ const ContentCard = ({ imgURL, launchDate, description, launchStatus }) => {
       <View style={styles.section}>
         <Countdown propDate={launchStatus === 1 ? launchDate : ''} />
         <Divider />
-        <Text style={[styles.description, styles.textColor]}>
+        <Text
+          numberOfLines={4}
+          ellipsizeMode="tail"
+          style={[styles.description, styles.textColor]}>
           {description}
         </Text>
       </View>
