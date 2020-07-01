@@ -5,13 +5,14 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {
   useAgenciesState,
   useAgenciesDispatch,
   getAgencies,
 } from '../context/AgenciesContext';
+import AgencyCard from '../components/agencyCard/index';
 
 //TODO: Make agency card
 const AgenciesList = ({ handlePress }) => {
@@ -72,18 +73,21 @@ const AgenciesList = ({ handlePress }) => {
 
       {status !== 'error' && !isOptimistic ? (
         <FlatList
+          style={styles.list}
           data={agencies}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                handlePress(item);
-              }}>
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
+            <AgencyCard data={item} onPress={() => handlePress(item)} />
           )}
-          refreshing={isRefreshing}
-          onRefresh={handleRefresh}
+          refreshControl={
+            <RefreshControl
+              tintColor="tomato"
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }
+          // refreshing={isRefreshing}
+          // onRefresh={handleRefresh}
         />
       ) : (
         <Text>{error}</Text>
@@ -95,6 +99,9 @@ const AgenciesList = ({ handlePress }) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+  },
+  list: {
+    paddingHorizontal: 15,
   },
   optimisticItem: {
     backgroundColor: 'pink',
