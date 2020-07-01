@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import LaunchStatus from './LaunchStatus';
 
-// TODO: Make status component
 const HeaderCard = ({ name, location, date, status }) => {
   return (
     <View style={styles.header}>
