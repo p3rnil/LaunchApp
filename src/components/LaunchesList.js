@@ -10,11 +10,12 @@ import {
 import {
   useLaunchesState,
   useLaunchesDispatch,
-  updateLaunches,
+  getNextLaunches,
 } from '../context/LaunchContext';
 import LaunchCard from './launchCard/index';
 
-//TODO: Update Optimistic
+// TODO: Update Optimistic
+// TODO: Remove hardcoded launch number
 const LaunchesList = ({ handlePress }) => {
   const [launches, setLaunches] = useState(null);
   const { status, error } = useLaunchesState();
@@ -44,7 +45,7 @@ const LaunchesList = ({ handlePress }) => {
   }, []);
 
   useEffect(() => {
-    updateLaunches(launchesDispatch, (data) => {
+    getNextLaunches(10, launchesDispatch, (data) => {
       setLaunches(data);
       setIsOptimistic(false);
     });
@@ -53,7 +54,7 @@ const LaunchesList = ({ handlePress }) => {
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await updateLaunches(launchesDispatch, (data) => {
+    await getNextLaunches(10, launchesDispatch, (data) => {
       setLaunches(data);
     });
     setIsRefreshing(false);

@@ -52,11 +52,11 @@ function useLaunchesDispatch() {
   return context;
 }
 
-async function updateLaunches(dispatch, callback) {
+async function getNextLaunches(n, dispatch, callback) {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get(
-      'https://launchlibrary.net/1.4/launch/next/10',
+      `https://launchlibrary.net/1.4/launch/next/${n}`,
     );
     dispatch({ type: 'finish update', payload: response.data.launches });
     callback(response.data.launches);
@@ -106,5 +106,5 @@ export {
   LaunchProvider,
   useLaunchesState,
   useLaunchesDispatch,
-  updateLaunches,
+  getNextLaunches,
 };

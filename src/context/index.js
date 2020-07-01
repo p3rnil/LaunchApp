@@ -2,7 +2,7 @@ import {
   LaunchProvider,
   useLaunchesState,
   useLaunchesDispatch,
-  updateLaunches,
+  getNextLaunches,
 } from './LaunchContext';
 
 import {
@@ -16,7 +16,7 @@ export {
   LaunchProvider,
   useLaunchesState,
   useLaunchesDispatch,
-  updateLaunches,
+  getNextLaunches,
   AgencyProvider,
   useAgenciesState,
   useAgenciesDispatch,
