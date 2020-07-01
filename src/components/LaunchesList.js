@@ -12,6 +12,7 @@ import {
   useLaunchesDispatch,
   getNextLaunches,
 } from '../context/LaunchContext';
+import { useLaunchesStatusDispatch, getLaunchesStatus } from '../context/index';
 import LaunchCard from './launchCard/index';
 
 // TODO: Update Optimistic
@@ -19,10 +20,15 @@ import LaunchCard from './launchCard/index';
 const LaunchesList = ({ handlePress }) => {
   const [launches, setLaunches] = useState(null);
   const { status, error } = useLaunchesState();
+  const launchStatusDispatch = useLaunchesStatusDispatch();
   const launchesDispatch = useLaunchesDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOptimistic, setIsOptimistic] = useState(true);
   const optimisticUIItems = useRef([]);
+
+  useEffect(() => {
+    getLaunchesStatus(launchStatusDispatch);
+  }, [launchStatusDispatch]);
 
   useEffect(() => {
     const createOptimisticUIList = (length) => {

@@ -6,6 +6,13 @@ import {
 } from './LaunchContext';
 
 import {
+  LaunchStatusProvider,
+  useLaunchesStatusState,
+  useLaunchesStatusDispatch,
+  getLaunchesStatus,
+} from './LaunchStatusContext';
+
+import {
   AgencyProvider,
   useAgenciesState,
   useAgenciesDispatch,
@@ -17,6 +24,10 @@ export {
   useLaunchesState,
   useLaunchesDispatch,
   getNextLaunches,
+  LaunchStatusProvider,
+  useLaunchesStatusState,
+  useLaunchesStatusDispatch,
+  getLaunchesStatus,
   AgencyProvider,
   useAgenciesState,
   useAgenciesDispatch,
