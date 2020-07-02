@@ -52,6 +52,7 @@ const useAgenciesDispatch = () => {
   return context;
 };
 
+// TODO: Add store
 const getAgencies = async (dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });

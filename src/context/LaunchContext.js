@@ -52,6 +52,7 @@ const useLaunchesDispatch = () => {
   return context;
 };
 
+// TODO: Add store
 const getNextLaunches = async (n, dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });
