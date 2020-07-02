@@ -19,6 +19,14 @@ import {
   getAgencies,
 } from './AgenciesContext';
 
+import {
+  RocketsProvider,
+  useRocketsState,
+  useRocketDispatch,
+  getRockets,
+  getRocket,
+} from './RocketContext';
+
 export {
   LaunchProvider,
   useLaunchesState,
@@ -32,4 +40,9 @@ export {
   useAgenciesState,
   useAgenciesDispatch,
   getAgencies,
+  RocketsProvider,
+  useRocketsState,
+  useRocketDispatch,
+  getRockets,
+  getRocket,
 };

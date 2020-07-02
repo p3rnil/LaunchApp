@@ -1,5 +1,5 @@
 import Launches from './Launches';
 import Settings from './Settings';
-import Agencies from './Agencies';
+import Rockets from './Rockets';
 
-export { Launches, Settings, Agencies };
+export { Launches, Settings, Rockets };

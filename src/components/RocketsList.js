@@ -8,17 +8,18 @@ import {
   RefreshControl,
 } from 'react-native';
 import {
-  useAgenciesState,
-  useAgenciesDispatch,
-  getAgencies,
-} from '../context/AgenciesContext';
-import AgencyCard from '../components/agencyCard/index';
+  useRocketDispatch,
+  useRocketsState,
+  getRockets,
+} from '../context/index';
+import RocketCard from './rocketCard/index';
 
 //TODO: Make agency card
-const AgenciesList = ({ handlePress }) => {
-  const [agencies, setAgencies] = useState(null);
-  const { status, error } = useAgenciesState();
-  const agenciesDispatch = useAgenciesDispatch();
+const RocketsList = ({ navigation }) => {
+  const { rockets, status, error } = useRocketsState();
+
+  const rocketsDispatch = useRocketDispatch();
+
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOptimistic, setIsOptimistic] = useState(true);
   const optimisticUIItems = useRef([]);
@@ -44,20 +45,19 @@ const AgenciesList = ({ handlePress }) => {
   }, []);
 
   useEffect(() => {
-    getAgencies(agenciesDispatch, (data) => {
-      setAgencies(data);
-      setIsOptimistic(false);
-    });
-  }, [agenciesDispatch]);
+    getRockets(rocketsDispatch, () => setIsOptimistic(false));
+  }, [rocketsDispatch]);
 
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await getAgencies(agenciesDispatch, (data) => {
-      setAgencies(data);
-    });
+    await getRockets(rocketsDispatch);
     setIsRefreshing(false);
-  }, [agenciesDispatch]);
+  }, [rocketsDispatch]);
+
+  const handlePress = (item) => {
+    navigation.navigate('RocketDetail', { rocket: item });
+  };
 
   return (
     <SafeAreaView style={styles.view}>
@@ -71,13 +71,13 @@ const AgenciesList = ({ handlePress }) => {
         </SafeAreaView>
       ) : null}
 
-      {status !== 'error' && !isOptimistic ? (
+      {rockets !== null && status !== 'error' && !isOptimistic ? (
         <FlatList
           style={styles.list}
-          data={agencies}
+          data={rockets}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <AgencyCard data={item} onPress={() => handlePress(item)} />
+            <RocketCard data={item} onPress={() => handlePress(item)} />
           )}
           refreshControl={
             <RefreshControl
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AgenciesList;
+export default RocketsList;

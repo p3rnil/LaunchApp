@@ -12,23 +12,16 @@ import {
   useLaunchesDispatch,
   getNextLaunches,
 } from '../context/LaunchContext';
-import { useLaunchesStatusDispatch, getLaunchesStatus } from '../context/index';
 import LaunchCard from './launchCard/index';
 
 // TODO: Update Optimistic
 // TODO: Remove hardcoded launch number
 const LaunchesList = ({ handlePress }) => {
-  const [launches, setLaunches] = useState(null);
-  const { status, error } = useLaunchesState();
-  const launchStatusDispatch = useLaunchesStatusDispatch();
+  const { launches, status, error } = useLaunchesState();
   const launchesDispatch = useLaunchesDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOptimistic, setIsOptimistic] = useState(true);
   const optimisticUIItems = useRef([]);
-
-  useEffect(() => {
-    getLaunchesStatus(launchStatusDispatch);
-  }, [launchStatusDispatch]);
 
   useEffect(() => {
     const createOptimisticUIList = (length) => {
@@ -51,18 +44,13 @@ const LaunchesList = ({ handlePress }) => {
   }, []);
 
   useEffect(() => {
-    getNextLaunches(10, launchesDispatch, (data) => {
-      setLaunches(data);
-      setIsOptimistic(false);
-    });
+    getNextLaunches(10, launchesDispatch, (data) => setIsOptimistic(false));
   }, [launchesDispatch]);
 
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await getNextLaunches(10, launchesDispatch, (data) => {
-      setLaunches(data);
-    });
+    await getNextLaunches(10, launchesDispatch);
     setIsRefreshing(false);
   }, [launchesDispatch]);
 

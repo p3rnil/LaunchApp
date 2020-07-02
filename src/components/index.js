@@ -1,6 +1,6 @@
 import LaunchesList from './LaunchesList';
 import LaunchDetail from './LaunchDetail';
-import AgenciesList from './AgenciesList';
-import AgencyDetail from './AgencyDetail';
+import RocketsList from './RocketsList';
+import RocketDetail from './rocketDetail';
 
-export { LaunchesList, LaunchDetail, AgenciesList, AgencyDetail };
+export { LaunchesList, LaunchDetail, RocketsList, RocketDetail };

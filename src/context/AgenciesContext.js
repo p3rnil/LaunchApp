@@ -4,7 +4,7 @@ import axios from 'axios';
 const AgenciesStateContext = createContext();
 const AgenciesDispatchContext = createContext();
 
-function agenciesReducer(state, action) {
+const agenciesReducer = (state, action) => {
   switch (action.type) {
     case 'start update': {
       return { status: 'loading' };
@@ -19,9 +19,9 @@ function agenciesReducer(state, action) {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
-}
+};
 
-function AgencyProvider({ children }) {
+const AgencyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(agenciesReducer, {
     agencies: null,
     status: '',
@@ -34,36 +34,37 @@ function AgencyProvider({ children }) {
       </AgenciesDispatchContext.Provider>
     </AgenciesStateContext.Provider>
   );
-}
+};
 
-function useAgenciesState() {
+const useAgenciesState = () => {
   const context = useContext(AgenciesStateContext);
   if (context === undefined) {
     throw new Error('useAgenciesState must be used within a AgencyProvider');
   }
   return context;
-}
+};
 
-function useAgenciesDispatch() {
+const useAgenciesDispatch = () => {
   const context = useContext(AgenciesDispatchContext);
   if (context === undefined) {
     throw new Error('useAgenciesDispatch must be used within a AgencyProvider');
   }
   return context;
-}
+};
 
-async function getAgencies(dispatch, callback) {
+const getAgencies = async (dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get('https://launchlibrary.net/1.4/agency');
     dispatch({ type: 'finish update', payload: response.data.agencies });
-    callback(response.data.agencies);
 
-    return response.data.agencies;
+    if (callback !== null) {
+      callback(response.data.agencies);
+    }
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);
   }
-}
+};
 
 export { AgencyProvider, useAgenciesState, useAgenciesDispatch, getAgencies };

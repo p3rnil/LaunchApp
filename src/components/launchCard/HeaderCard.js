@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import LaunchStatus from './LaunchStatus';
+import {
+  useLaunchesStatusDispatch,
+  getLaunchesStatus,
+} from '../../context/index';
 
 const HeaderCard = ({ name, location, date, status }) => {
+  const launchStatusDispatch = useLaunchesStatusDispatch();
+
+  useEffect(() => {
+    getLaunchesStatus(launchStatusDispatch);
+  }, [launchStatusDispatch]);
+
   return (
     <View style={styles.header}>
       <LaunchStatus id={status} />

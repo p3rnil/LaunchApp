@@ -4,13 +4,13 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Launches, Settings, Agencies } from './src/screens/index';
-import { LaunchDetail, AgencyDetail } from './src/components/index';
+import { Launches, Settings, Rockets } from './src/screens/index';
+import { LaunchDetail, RocketDetail } from './src/components/index';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 const LaunchesStack = createStackNavigator();
-const AgenciesStack = createStackNavigator();
+const RocketsStack = createStackNavigator();
 
 const LaunchesStackScreen = () => {
   return (
@@ -29,20 +29,20 @@ const LaunchesStackScreen = () => {
   );
 };
 
-const AgenciesStackScreen = () => {
+const RocketsStackScreen = () => {
   return (
-    <AgenciesStack.Navigator>
-      <AgenciesStack.Screen
-        name="Agencies"
-        component={Agencies}
+    <RocketsStack.Navigator>
+      <RocketsStack.Screen
+        name="Rockets"
+        component={Rockets}
         options={{ headerShown: false }}
       />
-      <AgenciesStack.Screen
-        name="AgencyDetail"
-        component={AgencyDetail}
-        options={({ route }) => ({ title: route.params.item.name })}
+      <RocketsStack.Screen
+        name="RocketDetail"
+        component={RocketDetail}
+        options={({ route }) => ({ title: route.params.rocket.name })}
       />
-    </AgenciesStack.Navigator>
+    </RocketsStack.Navigator>
   );
 };
 
@@ -61,7 +61,7 @@ const App = () => {
                 iconName = focused ? 'ios-rocket' : 'ios-rocket';
               } else if (route.name === 'Settings') {
                 iconName = focused ? 'ios-settings' : 'ios-settings';
-              } else if (route.name === 'Agencies') {
+              } else if (route.name === 'Rockets') {
                 iconName = focused ? 'ios-list' : 'ios-list';
               }
 
@@ -73,7 +73,7 @@ const App = () => {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
           }}>
-          <Tab.Screen name="Agencies" component={AgenciesStackScreen} />
+          <Tab.Screen name="Rockets" component={RocketsStackScreen} />
           <Tab.Screen name="Launches" component={LaunchesStackScreen} />
           <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator>

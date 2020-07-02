@@ -1,27 +1,30 @@
 import React from 'react';
 import HeaderCard from './HeaderCard';
 import ContentCard from './ContentCard';
+import { LaunchStatusProvider } from '../../context/index';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 // TODO: Make global style, ex: font color
 const LaunchCard = ({ data, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.card}>
-        <HeaderCard
-          name={data.name}
-          location={data.location.pads[0].name}
-          date={new Date(data.net).toDateString()}
-          status={data.status}
-        />
-        <ContentCard
-          imgURL={data.rocket.imageURL}
-          launchDate={data.net}
-          launchStatus={data.status}
-          description={data.missions[0].description}
-        />
-      </View>
-    </TouchableOpacity>
+    <LaunchStatusProvider>
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.card}>
+          <HeaderCard
+            name={data.name}
+            location={data.location.pads[0].name}
+            date={new Date(data.net).toDateString()}
+            status={data.status}
+          />
+          <ContentCard
+            imgURL={data.rocket.imageURL}
+            launchDate={data.net}
+            launchStatus={data.status}
+            description={data.missions[0].description}
+          />
+        </View>
+      </TouchableOpacity>
+    </LaunchStatusProvider>
   );
 };
 

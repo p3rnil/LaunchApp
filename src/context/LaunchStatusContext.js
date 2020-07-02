@@ -4,7 +4,7 @@ import axios from 'axios';
 const LaunchesStatusStateContext = createContext();
 const LaunchesStatusDispatchContext = createContext();
 
-function launchesStatusReducer(state, action) {
+const launchesStatusReducer = (state, action) => {
   switch (action.type) {
     case 'start update': {
       return { status: 'loading' };
@@ -19,9 +19,9 @@ function launchesStatusReducer(state, action) {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
-}
+};
 
-function LaunchStatusProvider({ children }) {
+const LaunchStatusProvider = ({ children }) => {
   const [state, dispatch] = useReducer(launchesStatusReducer, {
     launchesStatus: null,
     status: '',
@@ -34,9 +34,9 @@ function LaunchStatusProvider({ children }) {
       </LaunchesStatusDispatchContext.Provider>
     </LaunchesStatusStateContext.Provider>
   );
-}
+};
 
-function useLaunchesStatusState() {
+const useLaunchesStatusState = () => {
   const context = useContext(LaunchesStatusStateContext);
   if (context === undefined) {
     throw new Error(
@@ -44,9 +44,9 @@ function useLaunchesStatusState() {
     );
   }
   return context;
-}
+};
 
-function useLaunchesStatusDispatch() {
+const useLaunchesStatusDispatch = () => {
   const context = useContext(LaunchesStatusDispatchContext);
   if (context === undefined) {
     throw new Error(
@@ -54,9 +54,9 @@ function useLaunchesStatusDispatch() {
     );
   }
   return context;
-}
+};
 
-async function getLaunchesStatus(dispatch, callback = null) {
+const getLaunchesStatus = async (dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get(
@@ -67,13 +67,11 @@ async function getLaunchesStatus(dispatch, callback = null) {
     if (callback != null) {
       callback(response.data.types);
     }
-
-    return response.data.types;
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);
   }
-}
+};
 
 export {
   LaunchStatusProvider,
