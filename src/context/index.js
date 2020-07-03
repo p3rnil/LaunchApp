@@ -32,6 +32,7 @@ import {
   useRocketFamilyState,
   useRocketFamilyDispatch,
   getRocketFamilies,
+  getRocketFamily,
 } from './RocketFamilyContext';
 
 export {
@@ -56,4 +57,5 @@ export {
   useRocketFamilyState,
   useRocketFamilyDispatch,
   getRocketFamilies,
+  getRocketFamily,
 };

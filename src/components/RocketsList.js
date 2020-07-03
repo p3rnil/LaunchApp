@@ -11,6 +11,8 @@ import {
   useRocketDispatch,
   useRocketsState,
   getRockets,
+  getRocketFamilies,
+  useRocketFamilyDispatch,
 } from '../context/index';
 import RocketCard from './rocketCard/index';
 
@@ -19,6 +21,7 @@ const RocketsList = ({ navigation }) => {
   const { rockets, status, error } = useRocketsState();
 
   const rocketsDispatch = useRocketDispatch();
+  const rocketFamiliesDispatch = useRocketFamilyDispatch();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOptimistic, setIsOptimistic] = useState(true);
@@ -48,6 +51,10 @@ const RocketsList = ({ navigation }) => {
     getRockets(rocketsDispatch, () => setIsOptimistic(false));
   }, [rocketsDispatch]);
 
+  useEffect(() => {
+    getRocketFamilies(rocketFamiliesDispatch);
+  }, [rocketFamiliesDispatch]);
+
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -71,7 +78,7 @@ const RocketsList = ({ navigation }) => {
         </SafeAreaView>
       ) : null}
 
-      {rockets !== null && status !== 'error' && !isOptimistic ? (
+      {rockets && status !== 'error' && !isOptimistic ? (
         <FlatList
           style={styles.list}
           data={rockets}

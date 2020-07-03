@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { RocketsProvider } from '../../context/index';
+import { View } from 'react-native';
+import { RocketsProvider, RocketFamilyProvider } from '../../context/index';
 import RocketContent from './RocketContent';
 
 // TODO: Just a placeholder, make it functional >:)
@@ -9,9 +9,11 @@ const RocketDetail = ({ route, data }) => {
 
   return (
     <RocketsProvider>
-      <View>
-        <RocketContent data={rocket} />
-      </View>
+      <RocketFamilyProvider>
+        <View>
+          <RocketContent data={rocket} />
+        </View>
+      </RocketFamilyProvider>
     </RocketsProvider>
   );
 };

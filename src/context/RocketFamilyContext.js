@@ -16,6 +16,9 @@ const rocketFamilyReducer = (state, action) => {
     case 'fail update': {
       return { status: 'error', error: action.payload };
     }
+    case 'getRocketFamily': {
+      return { status: 'finish', rocketFamily: action.payload };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -25,6 +28,7 @@ const rocketFamilyReducer = (state, action) => {
 const RocketFamilyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rocketFamilyReducer, {
     rocketFamilies: null,
+    rocketFamily: null,
     status: '',
     error: '',
   });
@@ -57,22 +61,36 @@ const useRocketFamilyDispatch = () => {
   return context;
 };
 
+// Retrieve stored data dor rocket families
+const getStoredData = async () => {
+  let rocketFamilies = null;
+  // Check for stored data
+  rocketFamilies = await AsyncStorage.getItem('rocketFamilies');
+  if (rocketFamilies) {
+    // Stored data found
+    rocketFamilies = JSON.parse(rocketFamilies);
+
+    return rocketFamilies;
+  }
+};
+
+// Store rocket families
+const storeData = async (data) => {
+  const jsonData = JSON.stringify(data);
+  await AsyncStorage.setItem('rocketFamilies', jsonData);
+};
+
 // TODO: Update data after x days
 const getRocketFamilies = async (dispatch, callback = null) => {
   dispatch({ type: 'start update' });
 
   try {
     // Check for stored data
-    const storedRocketFamilies = await AsyncStorage.getItem('rocketFamilies');
-    if (storedRocketFamilies !== null) {
-      // Stored data found
-      const rocketFamilies = JSON.parse(storedRocketFamilies);
-      dispatch({ type: 'finish update', payload: rocketFamilies });
-
+    const storedRocketFamilies = await getStoredData();
+    if (storedRocketFamilies) {
       if (callback !== null) {
         callback(rocketFamilies);
       }
-
       return;
     }
 
@@ -98,21 +116,33 @@ const getRocketFamilies = async (dispatch, callback = null) => {
     // Requests sent
     const rocketFamilies = await axios.all(requests);
 
-    // Store data
+    // Filter data
     const filteredRocketFamilies = rocketFamilies.filter(
       (x) => x !== undefined,
     );
-    const jsonRockets = JSON.stringify(filteredRocketFamilies);
-    await AsyncStorage.setItem('rocketFamilies', jsonRockets);
 
-    dispatch({ type: 'finish update', payload: filteredRocketFamilies });
+    // Store data
+    await storeData(filteredRocketFamilies);
 
     if (callback !== null) {
       callback(filteredRocketFamilies);
     }
+
+    dispatch({ type: 'finish update', payload: filteredRocketFamilies });
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);
+  }
+};
+
+const getRocketFamily = async (id, dispatch) => {
+  const rocketFamilies = await getStoredData();
+
+  if (rocketFamilies) {
+    const rocketFamily = rocketFamilies.find((x) => x.id === id);
+    dispatch({ type: 'getRocketFamily', payload: rocketFamily });
+  } else {
+    dispatch({ type: 'error', payload: 'Data not found' });
   }
 };
 
@@ -121,4 +151,5 @@ export {
   useRocketFamilyState,
   useRocketFamilyDispatch,
   getRocketFamilies,
+  getRocketFamily,
 };

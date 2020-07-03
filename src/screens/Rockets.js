@@ -1,12 +1,18 @@
 import React from 'react';
 import { RocketsList } from '../components/index';
-import { AgencyProvider, RocketsProvider } from '../context/index';
+import {
+  AgencyProvider,
+  RocketsProvider,
+  RocketFamilyProvider,
+} from '../context/index';
 
 const Rockets = ({ navigation }) => {
   return (
     <AgencyProvider>
       <RocketsProvider>
-        <RocketsList navigation={navigation} />
+        <RocketFamilyProvider>
+          <RocketsList navigation={navigation} />
+        </RocketFamilyProvider>
       </RocketsProvider>
     </AgencyProvider>
   );
