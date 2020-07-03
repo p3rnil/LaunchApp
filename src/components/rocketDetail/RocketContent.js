@@ -33,7 +33,7 @@ const RocketContent = ({ data }) => {
           data={rocketFamily.agencies}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.toString()}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <Text>{item.name}</Text>}
         />
       ) : null}
