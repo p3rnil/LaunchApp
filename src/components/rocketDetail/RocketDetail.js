@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { RocketsProvider, RocketFamilyProvider } from '../../context/index';
 import RocketContent from './RocketContent';
 
@@ -10,12 +10,18 @@ const RocketDetail = ({ route, data }) => {
   return (
     <RocketsProvider>
       <RocketFamilyProvider>
-        <View>
+        <View style={styles.view}>
           <RocketContent data={rocket} />
         </View>
       </RocketFamilyProvider>
     </RocketsProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    padding: 15,
+  },
+});
 
 export default RocketDetail;

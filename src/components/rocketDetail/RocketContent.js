@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView, StyleSheet } from 'react-native';
+import OpenURLButton from '../common/OpenURLButton';
 import {
   getRocket,
   useRocketDispatch,
@@ -27,27 +28,65 @@ const RocketContent = ({ data }) => {
 
   return (
     <ScrollView>
-      {rocket !== null ? <Text>{rocket.description}</Text> : null}
-      {rocketFamily ? (
-        <FlatList
-          data={rocketFamily.agencies}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
-        />
+      {rocket && rocketFamily ? (
+        <>
+          <View style={styles.section}>
+            <Text style={styles.title}>Description: </Text>
+            <Text>{rocket.description}</Text>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.title}>Agencies: </Text>
+            <FlatList
+              style={styles.list}
+              data={rocketFamily.agencies}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.agencyCard}>
+                  <Text>{item.name}</Text>
+                </View>
+              )}
+            />
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.title}>Links:</Text>
+            <OpenURLButton url={data.wikiURL}>Wiki</OpenURLButton>
+          </View>
+        </>
       ) : null}
-      <FlatList
-        data={data.defaultPads?.split(',')}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.toString()}
-        renderItem={({ item }) => <Text>{item}</Text>}
-      />
-      <Text>Agency stats!</Text>
-      <Text>Info links!</Text>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  section: {
+    marginBottom: 15,
+    alignItems: 'flex-start',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  list: {},
+  agencyCard: {
+    marginHorizontal: 10,
+    backgroundColor: '#f0f0f0',
+    marginVertical: 7.5,
+    paddingHorizontal: 15,
+    paddingVertical: 40,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 10,
+  },
+  link: {},
+});
 
 export default RocketContent;
