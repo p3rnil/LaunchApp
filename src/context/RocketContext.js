@@ -10,8 +10,6 @@ const keysStore = {
   rockets: 'rockets',
 };
 
-const endpoint = 'rocketfamily';
-
 const rocketReducer = (state, action) => {
   switch (action.type) {
     case 'start update': {
@@ -65,18 +63,17 @@ const useRocketDispatch = () => {
 };
 
 // TODO: Update data after x days
-const getRockets = async (dispatch, callback = null) => {
+const getRockets = async (dispatch) => {
   try {
     dispatch({ type: 'start update' });
 
     // Check for stored data
     const storedRockets = await getStoredData(keysStore.rockets);
     if (storedRockets) {
-      dispatch({ type: 'finish update', payload: storedRockets });
-
-      if (callback !== null) {
-        callback();
-      }
+      dispatch({
+        type: 'finish update',
+        payload: storedRockets,
+      });
     } else {
       // Prepare request
       // DISCLAIMER: API doesn't have a list for all rockets
@@ -105,10 +102,6 @@ const getRockets = async (dispatch, callback = null) => {
       await storeData(keysStore.rockets, filteredRockets);
 
       dispatch({ type: 'finish update', payload: filteredRockets });
-
-      if (callback !== null) {
-        callback();
-      }
     }
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });

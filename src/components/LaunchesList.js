@@ -20,43 +20,44 @@ const LaunchesList = ({ handlePress }) => {
   const { launches, status, error } = useLaunchesState();
   const launchesDispatch = useLaunchesDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isOptimistic, setIsOptimistic] = useState(true);
-  const optimisticUIItems = useRef([]);
+  // const [isOptimistic, setIsOptimistic] = useState(true);
+  // const optimisticUIItems = useRef([]);
+
+  // useEffect(() => {
+  //   const createOptimisticUIList = (length) => {
+  //     const array = [];
+
+  //     for (let i = 0; i < length; i++) {
+  //       array.push(
+  //         <View
+  //           style={[
+  //             styles.optimisticItem,
+  //             { width: `${Math.floor(Math.random() * 101) + 25}%` },
+  //           ]}
+  //         />,
+  //       );
+  //     }
+  //     return array;
+  //   };
+  //   optimisticUIItems.current = createOptimisticUIList(10);
+  // }, []);
 
   useEffect(() => {
-    const createOptimisticUIList = (length) => {
-      const array = [];
-
-      for (let i = 0; i < length; i++) {
-        array.push(
-          <View
-            style={[
-              styles.optimisticItem,
-              { width: `${Math.floor(Math.random() * 101) + 25}%` },
-            ]}
-          />,
-        );
-      }
-      return array;
-    };
-
-    optimisticUIItems.current = createOptimisticUIList(10);
-  }, []);
-
-  useEffect(() => {
-    getNextLaunches(10, launchesDispatch, (data) => setIsOptimistic(false));
+    getNextLaunches(5, launchesDispatch);
   }, [launchesDispatch]);
 
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    await getNextLaunches(10, launchesDispatch);
-    setIsRefreshing(false);
+    await getNextLaunches(5, launchesDispatch);
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
   }, [launchesDispatch]);
 
   return (
     <SafeAreaView style={styles.view}>
-      {isOptimistic ? (
+      {/* {isOptimistic ? (
         <SafeAreaView style={styles.view}>
           <FlatList
             data={optimisticUIItems.current}
@@ -64,9 +65,8 @@ const LaunchesList = ({ handlePress }) => {
             renderItem={({ item }) => item}
           />
         </SafeAreaView>
-      ) : null}
-
-      {status !== 'error' && !isOptimistic ? (
+      ) : null} */}
+      {status !== 'error' ? (
         <FlatList
           style={styles.list}
           data={launches}

@@ -52,16 +52,14 @@ const useLaunchesDispatch = () => {
   return context;
 };
 
-const getNextLaunches = async (n, dispatch, callback = null) => {
+const getNextLaunches = async (n, dispatch) => {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get(
       `https://launchlibrary.net/1.4/launch/next/${n}`,
     );
+
     dispatch({ type: 'finish update', payload: response.data.launches });
-    if (callback !== null) {
-      callback(response.data.launches);
-    }
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);

@@ -24,31 +24,31 @@ const RocketsList = ({ navigation }) => {
   const rocketFamiliesDispatch = useRocketFamilyDispatch();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isOptimistic, setIsOptimistic] = useState(true);
-  const optimisticUIItems = useRef([]);
+  //const [isOptimistic, setIsOptimistic] = useState(true);
+  //const optimisticUIItems = useRef([]);
+
+  // useEffect(() => {
+  //   const createOptimisticUIList = (length) => {
+  //     const array = [];
+
+  //     for (let i = 0; i < length; i++) {
+  //       array.push(
+  //         <View
+  //           style={[
+  //             styles.optimisticItem,
+  //             { width: `${Math.floor(Math.random() * 101) + 25}%` },
+  //           ]}
+  //         />,
+  //       );
+  //     }
+  //     return array;
+  //   };
+
+  //   optimisticUIItems.current = createOptimisticUIList(45);
+  // }, []);
 
   useEffect(() => {
-    const createOptimisticUIList = (length) => {
-      const array = [];
-
-      for (let i = 0; i < length; i++) {
-        array.push(
-          <View
-            style={[
-              styles.optimisticItem,
-              { width: `${Math.floor(Math.random() * 101) + 25}%` },
-            ]}
-          />,
-        );
-      }
-      return array;
-    };
-
-    optimisticUIItems.current = createOptimisticUIList(45);
-  }, []);
-
-  useEffect(() => {
-    getRockets(rocketsDispatch, () => setIsOptimistic(false));
+    getRockets(rocketsDispatch);
   }, [rocketsDispatch]);
 
   useEffect(() => {
@@ -59,16 +59,19 @@ const RocketsList = ({ navigation }) => {
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
     await getRockets(rocketsDispatch);
-    setIsRefreshing(false);
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
   }, [rocketsDispatch]);
 
-  const handlePress = (item) => {
-    navigation.navigate('RocketDetail', { rocket: item });
-  };
+  const handlePress = useCallback(
+    (item) => navigation.navigate('RocketDetail', { rocket: item }),
+    [navigation],
+  );
 
   return (
     <SafeAreaView style={styles.view}>
-      {isOptimistic ? (
+      {/* {isOptimistic ? (
         <SafeAreaView style={styles.view}>
           <FlatList
             data={optimisticUIItems.current}
@@ -76,9 +79,9 @@ const RocketsList = ({ navigation }) => {
             renderItem={({ item }) => item}
           />
         </SafeAreaView>
-      ) : null}
+      ) : null} */}
 
-      {rockets && status !== 'error' && !isOptimistic ? (
+      {status !== 'error' ? (
         <FlatList
           style={styles.list}
           data={rockets}
