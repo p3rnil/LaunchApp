@@ -12,7 +12,7 @@ const LaunchCard = ({ data, onPress }) => {
         <View style={styles.card}>
           <HeaderCard
             name={data.name}
-            location={data.location.pads[0].name}
+            location={data.location.pads[0]?.name}
             date={new Date(data.net).toDateString()}
             status={data.status}
           />
@@ -20,7 +20,7 @@ const LaunchCard = ({ data, onPress }) => {
             imgURL={data.rocket.imageURL}
             launchDate={data.net}
             launchStatus={data.status}
-            description={data.missions[0].description}
+            description={data.missions[0]?.description}
           />
         </View>
       </TouchableOpacity>
