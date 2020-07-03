@@ -83,7 +83,7 @@ const getRockets = async (dispatch, callback = null) => {
     for (let index = 1; index < 250; index++) {
       requests.push(
         axios
-          .get(`https://launchlibrary.net/1.4/rocket/${index}?mode=list`)
+          .get(`https://launchlibrary.net/1.4/rocket/${index}?mode=verbose`)
           .then((response) => {
             return response.data.rockets[0];
           }),

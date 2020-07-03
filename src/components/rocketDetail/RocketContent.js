@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, FlatList, ScrollView } from 'react-native';
 import {
   getRocket,
   useRocketDispatch,
@@ -17,6 +17,22 @@ const RocketContent = ({ data }) => {
   return (
     <ScrollView>
       {rocket !== null ? <Text>{rocket.description}</Text> : null}
+      <FlatList
+        data={data.family?.agencies.split(',')}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.toString()}
+        renderItem={({ item }) => <Text>{item}</Text>}
+      />
+      <FlatList
+        data={data.defaultPads?.split(',')}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.toString()}
+        renderItem={({ item }) => <Text>{item}</Text>}
+      />
+      <Text>Agency stats!</Text>
+      <Text>Info links!</Text>
     </ScrollView>
   );
 };
