@@ -77,10 +77,15 @@ const getRockets = async (dispatch, callback = null) => {
     }
 
     // Prepare request
-    // DISCLAIMER: API doesn't have a list for rockets with agencies
+    // DISCLAIMER: API doesn't have a list for all rockets
+    // there are some id that are undefined.
     // See: https://launchlibrary.net/docs/1.4.1/api.html#rocket
+    const totalRockets = await axios
+      .get('https://launchlibrary.net/1.4/rocket')
+      .then((response) => response.data.total + 50);
+
     let requests = [];
-    for (let index = 1; index < 250; index++) {
+    for (let index = 1; index < totalRockets; index++) {
       requests.push(
         axios
           .get(`https://launchlibrary.net/1.4/rocket/${index}?mode=verbose`)
