@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, ScrollView, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import OpenURLButton from '../common/OpenURLButton';
 import {
   getRocket,
@@ -10,6 +17,7 @@ import {
   getRocketFamily,
 } from '../../context/index';
 
+// TODO: Style && functionality
 const RocketContent = ({ data }) => {
   const { rocket } = useRocketsState();
   const { rocketFamily } = useRocketFamilyState();
@@ -43,9 +51,11 @@ const RocketContent = ({ data }) => {
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
-                <View style={styles.agencyCard}>
-                  <Text>{item.name}</Text>
-                </View>
+                <TouchableOpacity>
+                  <View style={styles.agencyCard}>
+                    <Text>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
               )}
             />
           </View>
@@ -86,7 +96,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
   },
-  link: {},
 });
 
 export default RocketContent;
