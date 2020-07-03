@@ -23,7 +23,7 @@ const RocketContent = ({ data }) => {
     getRocketFamily(data.family.id, rocketFamiliesDispatch);
   }, [data.family.id, rocketFamiliesDispatch]);
 
-  console.log(rocketFamily.agencies);
+  console.log(rocketFamily);
 
   return (
     <ScrollView>

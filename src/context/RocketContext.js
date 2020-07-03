@@ -1,9 +1,16 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import { getStoredData, storeData } from './utils';
+import { rocketsEndpoint } from './config';
 import axios from 'axios';
 
 const RocketStateContext = createContext();
 const RocketDispatchContext = createContext();
+
+const keysStore = {
+  rockets: 'rockets',
+};
+
+const endpoint = 'rocketfamily';
 
 const rocketReducer = (state, action) => {
   switch (action.type) {
@@ -59,54 +66,49 @@ const useRocketDispatch = () => {
 
 // TODO: Update data after x days
 const getRockets = async (dispatch, callback = null) => {
-  dispatch({ type: 'start update' });
-
   try {
+    dispatch({ type: 'start update' });
+
     // Check for stored data
-    const storedRockets = await AsyncStorage.getItem('rockets');
-    if (storedRockets !== null) {
-      // Stored data found
-      const rockets = JSON.parse(storedRockets);
-      dispatch({ type: 'finish update', payload: rockets });
+    const storedRockets = await getStoredData(keysStore.rockets);
+    if (storedRockets) {
+      dispatch({ type: 'finish update', payload: storedRockets });
 
       if (callback !== null) {
-        callback(rockets);
+        callback();
+      }
+    } else {
+      // Prepare request
+      // DISCLAIMER: API doesn't have a list for all rockets
+      // there are some id that are undefined.
+      // See: https://launchlibrary.net/docs/1.4.1/api.html#rocket
+      const totalRockets = await axios
+        .get(`${rocketsEndpoint}`)
+        .then((response) => response.data.total + 50);
+
+      let requests = [];
+      for (let index = 1; index < totalRockets; index++) {
+        requests.push(
+          axios
+            .get(`${rocketsEndpoint}${index}?mode=verbose`)
+            .then((response) => {
+              return response.data.rockets[0];
+            }),
+        );
       }
 
-      return;
-    }
+      // Requests sent
+      const rockets = await axios.all(requests);
 
-    // Prepare request
-    // DISCLAIMER: API doesn't have a list for all rockets
-    // there are some id that are undefined.
-    // See: https://launchlibrary.net/docs/1.4.1/api.html#rocket
-    const totalRockets = await axios
-      .get('https://launchlibrary.net/1.4/rocket')
-      .then((response) => response.data.total + 50);
+      // Filter data
+      const filteredRockets = rockets.filter((x) => x !== undefined);
+      await storeData(keysStore.rockets, filteredRockets);
 
-    let requests = [];
-    for (let index = 1; index < totalRockets; index++) {
-      requests.push(
-        axios
-          .get(`https://launchlibrary.net/1.4/rocket/${index}?mode=verbose`)
-          .then((response) => {
-            return response.data.rockets[0];
-          }),
-      );
-    }
+      dispatch({ type: 'finish update', payload: filteredRockets });
 
-    // Requests sent
-    const rockets = await axios.all(requests);
-
-    // Store data
-    const filteredRockets = rockets.filter((x) => x !== undefined);
-    const jsonRockets = JSON.stringify(filteredRockets);
-    await AsyncStorage.setItem('rockets', jsonRockets);
-
-    dispatch({ type: 'finish update', payload: filteredRockets });
-
-    if (callback !== null) {
-      callback(filteredRockets);
+      if (callback !== null) {
+        callback();
+      }
     }
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
@@ -115,6 +117,7 @@ const getRockets = async (dispatch, callback = null) => {
 };
 
 // TODO: Fix cases where _ equals a space
+// TODO: Retrieve all extra data
 const getRocket = async (id, name, dispatch) => {
   try {
     const nameToSearch = name.split('/').pop();

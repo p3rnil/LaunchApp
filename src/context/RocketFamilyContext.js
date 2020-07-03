@@ -1,9 +1,15 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import { getStoredData, storeData } from './utils';
+import { familyRocketsEndpoint } from './config';
 import axios from 'axios';
 
 const RocketFamilyStateContext = createContext();
 const RocketFamilyDispatchContext = createContext();
+
+const keysStore = {
+  families: 'rocketFamilies',
+};
+const endpoint = 'rocketfamily';
 
 const rocketFamilyReducer = (state, action) => {
   switch (action.type) {
@@ -61,74 +67,46 @@ const useRocketFamilyDispatch = () => {
   return context;
 };
 
-// Retrieve stored data dor rocket families
-const getStoredData = async () => {
-  let rocketFamilies = null;
-  // Check for stored data
-  rocketFamilies = await AsyncStorage.getItem('rocketFamilies');
-  if (rocketFamilies) {
-    // Stored data found
-    rocketFamilies = JSON.parse(rocketFamilies);
-
-    return rocketFamilies;
-  }
-};
-
-// Store rocket families
-const storeData = async (data) => {
-  const jsonData = JSON.stringify(data);
-  await AsyncStorage.setItem('rocketFamilies', jsonData);
-};
-
 // TODO: Update data after x days
-const getRocketFamilies = async (dispatch, callback = null) => {
-  dispatch({ type: 'start update' });
-
+const getRocketFamilies = async (dispatch) => {
   try {
+    dispatch({ type: 'start update' });
+
     // Check for stored data
-    const storedRocketFamilies = await getStoredData();
+    const storedRocketFamilies = await getStoredData(keysStore.families);
+
     if (storedRocketFamilies) {
-      if (callback !== null) {
-        callback(rocketFamilies);
-      }
-      return;
-    }
+      dispatch({ type: 'finish update', payload: storedRocketFamilies });
+    } else {
+      // Prepare request
+      // DISCLAIMER: API doesn't have a list for rocket all families,
+      // there are some id that are undefined.
+      // See: https://launchlibrary.net/docs/1.4.1/api.html#rocket
+      const totalRocketFamilies = await axios
+        .get(`${familyRocketsEndpoint}`)
+        .then((response) => response.data.total + 50);
 
-    // Prepare request
-    // DISCLAIMER: API doesn't have a list for rocket all families,
-    // there are some id that are undefined.
-    // See: https://launchlibrary.net/docs/1.4.1/api.html#rocket
-    const totalRocketFamilies = await axios
-      .get('https://launchlibrary.net/1.4/rocketfamily')
-      .then((response) => response.data.total + 50);
-
-    let requests = [];
-    for (let index = 1; index < totalRocketFamilies; index++) {
-      requests.push(
-        axios
-          .get(`https://launchlibrary.net/1.4/rocketfamily/${index}`)
-          .then((response) => {
+      let requests = [];
+      for (let index = 1; index < totalRocketFamilies; index++) {
+        requests.push(
+          axios.get(`${familyRocketsEndpoint}${index}`).then((response) => {
             return response.data.RocketFamilies[0];
           }),
+        );
+      }
+
+      // Requests sent
+      const rocketFamilies = await axios.all(requests);
+
+      // Filter data
+      const filteredRocketFamilies = rocketFamilies.filter(
+        (x) => x !== undefined,
       );
+
+      // Store data
+      await storeData(keysStore.families, filteredRocketFamilies);
+      dispatch({ type: 'finish update', payload: filteredRocketFamilies });
     }
-
-    // Requests sent
-    const rocketFamilies = await axios.all(requests);
-
-    // Filter data
-    const filteredRocketFamilies = rocketFamilies.filter(
-      (x) => x !== undefined,
-    );
-
-    // Store data
-    await storeData(filteredRocketFamilies);
-
-    if (callback !== null) {
-      callback(filteredRocketFamilies);
-    }
-
-    dispatch({ type: 'finish update', payload: filteredRocketFamilies });
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);
@@ -136,7 +114,7 @@ const getRocketFamilies = async (dispatch, callback = null) => {
 };
 
 const getRocketFamily = async (id, dispatch) => {
-  const rocketFamilies = await getStoredData();
+  const rocketFamilies = await getStoredData(keysStore.families);
 
   if (rocketFamilies) {
     const rocketFamily = rocketFamilies.find((x) => x.id === id);

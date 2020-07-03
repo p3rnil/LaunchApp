@@ -56,7 +56,6 @@ const useLaunchesStatusDispatch = () => {
   return context;
 };
 
-// TODO: Add store
 const getLaunchesStatus = async (dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });
