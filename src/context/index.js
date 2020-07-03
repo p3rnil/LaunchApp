@@ -27,6 +27,13 @@ import {
   getRocket,
 } from './RocketContext';
 
+import {
+  RocketFamilyProvider,
+  useRocketFamilyState,
+  useRocketFamilyDispatch,
+  getRocketFamilies,
+} from './RocketFamilyContext';
+
 export {
   LaunchProvider,
   useLaunchesState,
@@ -45,4 +52,8 @@ export {
   useRocketDispatch,
   getRockets,
   getRocket,
+  RocketFamilyProvider,
+  useRocketFamilyState,
+  useRocketFamilyDispatch,
+  getRocketFamilies,
 };
