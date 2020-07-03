@@ -11,7 +11,7 @@ const rocketFamilyReducer = (state, action) => {
       return { status: 'loading' };
     }
     case 'finish update': {
-      return { status: 'finish', families: action.payload };
+      return { status: 'finish', rocketFamilies: action.payload };
     }
     case 'fail update': {
       return { status: 'error', error: action.payload };
@@ -24,7 +24,7 @@ const rocketFamilyReducer = (state, action) => {
 
 const RocketFamilyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rocketFamilyReducer, {
-    families: null,
+    rocketFamilies: null,
     status: '',
     error: '',
   });
