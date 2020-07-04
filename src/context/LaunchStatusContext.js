@@ -56,17 +56,13 @@ const useLaunchesStatusDispatch = () => {
   return context;
 };
 
-const getLaunchesStatus = async (dispatch, callback = null) => {
+const getLaunchesStatus = async (dispatch) => {
   try {
     dispatch({ type: 'start update' });
     const response = await axios.get(
       'https://launchlibrary.net/1.4/launchstatus',
     );
     dispatch({ type: 'finish update', payload: response.data.types });
-
-    if (callback != null) {
-      callback(response.data.types);
-    }
   } catch (error) {
     dispatch({ type: 'fail update', payload: error });
     console.error(error);

@@ -9,7 +9,6 @@ const RocketFamilyDispatchContext = createContext();
 const keysStore = {
   families: 'rocketFamilies',
 };
-const endpoint = 'rocketfamily';
 
 const rocketFamilyReducer = (state, action) => {
   switch (action.type) {
