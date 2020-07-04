@@ -5,7 +5,7 @@ import { SafeAreaView, ScrollView, View, Text, StyleSheet } from 'react-native';
 
 const LaunchDetail = ({ route }) => {
   const { launch } = route.params;
-  console.log(launch);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -46,7 +46,7 @@ const LaunchDetail = ({ route }) => {
           <Text>{`Type: ${launch.missions[0].typeName}`}</Text>
           <Text>{`Agency: ${launch.lsp.name}, ${launch.lsp.countryCode}`}</Text>
         </View>
-        <Text style={[styles.title, styles.marginBottom]}>Location info</Text>
+        <Text style={[styles.title, styles.marginBottom]}>Location</Text>
         <MapView
           style={styles.map}
           initialRegion={{
