@@ -16,7 +16,7 @@ import LaunchCard from './launchCard/index';
 
 // TODO: Update Optimistic
 // TODO: Remove hardcoded launch number
-const LaunchesList = ({ handlePress }) => {
+const LaunchesList = ({ navigation }) => {
   const { launches, status, error } = useLaunchesState();
   const launchesDispatch = useLaunchesDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -54,6 +54,11 @@ const LaunchesList = ({ handlePress }) => {
       setIsRefreshing(false);
     }, 1000);
   }, [launchesDispatch]);
+
+  const handlePress = useCallback(
+    (item) => navigation.navigate('LaunchDetail', { launch: item }),
+    [navigation],
+  );
 
   return (
     <SafeAreaView style={styles.view}>

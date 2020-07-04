@@ -23,7 +23,7 @@ const LaunchesStackScreen = () => {
       <LaunchesStack.Screen
         name="LaunchDetail"
         component={LaunchDetail}
-        options={({ route }) => ({ title: route.params.item.name })}
+        options={{ headerShown: false }}
       />
     </LaunchesStack.Navigator>
   );
