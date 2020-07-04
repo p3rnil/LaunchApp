@@ -1,13 +1,14 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
+import MapView from 'react-native-maps';
+import { SafeAreaView, ScrollView, View, Text, StyleSheet } from 'react-native';
 
 const LaunchDetail = ({ route }) => {
   const { launch } = route.params;
   console.log(launch);
   return (
-    <SafeAreaView>
-      <View style={styles.view}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
         <Text style={[styles.title, styles.marginBottom]}>{launch.name}</Text>
         <View style={styles.section}>
           <View style={styles.row}>
@@ -38,21 +39,34 @@ const LaunchDetail = ({ route }) => {
             <Text>{new Date(launch.net).toLocaleString()}</Text>
           </View>
         </View>
-        <Text style={styles.title}>Mission details</Text>
-        <Text style={styles.subtitle}>{launch.missions[0].name}</Text>
-        <Text>{launch.missions[0].description}</Text>
-        <Text>{`Type: ${launch.missions[0].typeName}`}</Text>
-        <Text>{`Agency: ${launch.lsp.name}, ${launch.lsp.countryCode}`}</Text>
-        <Text style={styles.title}>Location info</Text>
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.title}>Mission details</Text>
+          <Text style={styles.subtitle}>{launch.missions[0].name}</Text>
+          <Text>{launch.missions[0].description}</Text>
+          <Text>{`Type: ${launch.missions[0].typeName}`}</Text>
+          <Text>{`Agency: ${launch.lsp.name}, ${launch.lsp.countryCode}`}</Text>
+        </View>
+        <Text style={[styles.title, styles.marginBottom]}>Location info</Text>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: launch.location.pads[0].latitude,
+            longitude: launch.location.pads[0].longitude,
+            latitudeDelta: 0.0022,
+            longitudeDelta: 0.0021,
+          }}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  view: {
+  container: {
+    flex: 1,
+  },
+  scrollView: {
     paddingHorizontal: 15,
-    backgroundColor: 'pink',
   },
   row: {
     flexDirection: 'row',
@@ -91,6 +105,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    borderRadius: 10,
+  },
+  map: {
+    height: 300,
+    width: '100%',
     borderRadius: 10,
   },
 });
