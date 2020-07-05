@@ -1,10 +1,10 @@
 import React from 'react';
-import { RocketsList } from '../components/index';
+import { RocketsList } from '../components';
 import {
   AgencyProvider,
   RocketsProvider,
   RocketFamilyProvider,
-} from '../context/index';
+} from '../context';
 
 const Rockets = ({ navigation }) => {
   return (

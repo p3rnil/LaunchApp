@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useLaunchesStatusState } from '../../context/index';
+import { useLaunchesStatusState } from '../../context';
 
 const LaunchStatus = ({ id }) => {
   const { launchesStatus } = useLaunchesStatusState();

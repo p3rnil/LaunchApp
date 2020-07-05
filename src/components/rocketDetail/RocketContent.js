@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import OpenURLButton from '../common/OpenURLButton';
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import OpenURLButton from '../common/OpenURLButton';
 import {
   getRocket,
   useRocketDispatch,
@@ -15,7 +15,7 @@ import {
   useRocketFamilyState,
   useRocketFamilyDispatch,
   getRocketFamily,
-} from '../../context/index';
+} from '../../context';
 
 const RocketContent = ({ data }) => {
   const { rocket } = useRocketsState();

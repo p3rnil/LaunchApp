@@ -13,8 +13,8 @@ import {
   useLaunchesStatusDispatch,
   getLaunchesStatus,
   useLaunchesStatusState,
-} from '../context/index';
-import LaunchCard from './launchCard/index';
+} from '../context';
+import LaunchCard from './launchCard';
 
 // TODO: Remove hardcoded launch number
 const LaunchesList = ({ navigation }) => {

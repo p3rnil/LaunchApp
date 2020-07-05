@@ -1,6 +1,6 @@
 import React from 'react';
-import { LaunchesList } from '../components/index';
-import { LaunchProvider, LaunchStatusProvider } from '../context/index';
+import { LaunchesList } from '../components';
+import { LaunchProvider, LaunchStatusProvider } from '../context';
 
 const Launches = ({ navigation }) => {
   return (

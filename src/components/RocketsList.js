@@ -12,8 +12,8 @@ import {
   getRockets,
   getRocketFamilies,
   useRocketFamilyDispatch,
-} from '../context/index';
-import RocketCard from './rocketCard/index';
+} from '../context';
+import RocketCard from './rocketCard';
 
 const RocketsList = ({ navigation }) => {
   const { rockets, status, error } = useRocketsState();

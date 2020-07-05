@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Launches, Settings, Rockets } from './src/screens/index';
-import { LaunchDetail, RocketDetail } from './src/components/index';
+import { Launches, Settings, Rockets } from './src/screens';
+import { LaunchDetail, RocketDetail } from './src/components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();

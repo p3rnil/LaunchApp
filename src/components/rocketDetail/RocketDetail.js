@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { RocketsProvider, RocketFamilyProvider } from '../../context/index';
+import { RocketsProvider, RocketFamilyProvider } from '../../context';
 import RocketContent from './RocketContent';
 
 const RocketDetail = ({ route, data }) => {

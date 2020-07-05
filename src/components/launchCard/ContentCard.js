@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider } from '../common/index';
+import { Divider } from '../common';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import Countdown from '../common/Countdown';
 
