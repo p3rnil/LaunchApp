@@ -1,5 +1,5 @@
 import LaunchesList from './LaunchesList';
-import LaunchDetail from './LaunchDetail';
+import LaunchDetail from './launchDetail';
 import RocketsList from './RocketsList';
 import RocketDetail from './rocketDetail';
 

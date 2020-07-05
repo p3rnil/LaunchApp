@@ -11,15 +11,21 @@ import {
   useLaunchesState,
   useLaunchesDispatch,
   getNextLaunches,
-} from '../context/LaunchContext';
+  useLaunchesStatusDispatch,
+  getLaunchesStatus,
+  useLaunchesStatusState,
+} from '../context/index';
 import LaunchCard from './launchCard/index';
 
 // TODO: Update Optimistic
 // TODO: Remove hardcoded launch number
 const LaunchesList = ({ navigation }) => {
-  const { launches, status, error } = useLaunchesState();
+  const { launches, error } = useLaunchesState();
+  const { launchesStatus } = useLaunchesStatusState();
   const launchesDispatch = useLaunchesDispatch();
+  const launchStatusDispatch = useLaunchesStatusDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
+
   // const [isOptimistic, setIsOptimistic] = useState(true);
   // const optimisticUIItems = useRef([]);
 
@@ -46,6 +52,10 @@ const LaunchesList = ({ navigation }) => {
     getNextLaunches(5, launchesDispatch);
   }, [launchesDispatch]);
 
+  useEffect(() => {
+    getLaunchesStatus(launchStatusDispatch);
+  }, [launchStatusDispatch]);
+
   // handle refresh list
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -56,7 +66,7 @@ const LaunchesList = ({ navigation }) => {
   }, [launchesDispatch]);
 
   const handlePress = useCallback(
-    (item) => navigation.navigate('LaunchDetail', { launch: item }),
+    (item, ctx) => navigation.navigate('LaunchDetail', { launch: item, ctx }),
     [navigation],
   );
 
@@ -71,13 +81,16 @@ const LaunchesList = ({ navigation }) => {
           />
         </SafeAreaView>
       ) : null} */}
-      {status !== 'error' ? (
+      {launchesStatus && launches ? (
         <FlatList
           style={styles.list}
           data={launches}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <LaunchCard data={item} onPress={() => handlePress(item)} />
+            <LaunchCard
+              data={item}
+              onPress={() => handlePress(item, { launchesStatus })}
+            />
           )}
           refreshControl={
             <RefreshControl

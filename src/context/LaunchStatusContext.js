@@ -43,6 +43,7 @@ const LaunchStatusProvider = ({ children }) => {
 
 const useLaunchesStatusState = () => {
   const context = useContext(LaunchesStatusStateContext);
+
   if (context === undefined) {
     throw new Error(
       'useLaunchesStatusState must be used within a LaunchStatusProvider',
@@ -76,7 +77,7 @@ const getLaunchesStatus = async (dispatch) => {
       );
 
       // Store data
-      await storeData(keysStore.families, response.data.types);
+      await storeData(keysStore.status, response.data.types);
       dispatch({ type: 'finish update', payload: response.data.types });
     }
   } catch (error) {
