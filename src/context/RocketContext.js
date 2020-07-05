@@ -1,14 +1,10 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { getStoredData, storeData } from './utils';
-import { rocketsEndpoint } from './config';
+import { rocketsEndpoint, keysStore } from './config';
 import axios from 'axios';
 
 const RocketStateContext = createContext();
 const RocketDispatchContext = createContext();
-
-const keysStore = {
-  rockets: 'rockets',
-};
 
 const rocketReducer = (state, action) => {
   switch (action.type) {

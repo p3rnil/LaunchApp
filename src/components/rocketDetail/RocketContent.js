@@ -17,7 +17,6 @@ import {
   getRocketFamily,
 } from '../../context/index';
 
-// TODO: Style && functionality
 const RocketContent = ({ data }) => {
   const { rocket } = useRocketsState();
   const { rocketFamily } = useRocketFamilyState();

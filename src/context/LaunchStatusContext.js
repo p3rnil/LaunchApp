@@ -1,13 +1,10 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { getStoredData, storeData } from './utils';
+import { launchStatusEndpoint, keysStore } from './config';
 import axios from 'axios';
 
 const LaunchesStatusStateContext = createContext();
 const LaunchesStatusDispatchContext = createContext();
-
-const keysStore = {
-  status: 'launchStatus',
-};
 
 const launchesStatusReducer = (state, action) => {
   switch (action.type) {
@@ -72,9 +69,7 @@ const getLaunchesStatus = async (dispatch) => {
     if (storedLaunchStatus) {
       dispatch({ type: 'finish update', payload: storedLaunchStatus });
     } else {
-      const response = await axios.get(
-        'https://launchlibrary.net/1.4/launchstatus',
-      );
+      const response = await axios.get(launchStatusEndpoint);
 
       // Store data
       await storeData(keysStore.status, response.data.types);

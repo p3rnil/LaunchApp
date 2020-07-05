@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
+import { nextLaunchesEndpoint } from './config';
 import axios from 'axios';
 
 const LaunchesStateContext = createContext();
@@ -55,9 +56,7 @@ const useLaunchesDispatch = () => {
 const getNextLaunches = async (n, dispatch) => {
   try {
     dispatch({ type: 'start update' });
-    const response = await axios.get(
-      `https://launchlibrary.net/1.4/launch/next/${n}`,
-    );
+    const response = await axios.get(`${nextLaunchesEndpoint}/${n}`);
 
     dispatch({ type: 'finish update', payload: response.data.launches });
   } catch (error) {

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
-  View,
   Text,
   FlatList,
   StyleSheet,
@@ -17,7 +16,6 @@ import {
 } from '../context/index';
 import LaunchCard from './launchCard/index';
 
-// TODO: Update Optimistic
 // TODO: Remove hardcoded launch number
 const LaunchesList = ({ navigation }) => {
   const { launches, error } = useLaunchesState();
@@ -25,28 +23,6 @@ const LaunchesList = ({ navigation }) => {
   const launchesDispatch = useLaunchesDispatch();
   const launchStatusDispatch = useLaunchesStatusDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  // const [isOptimistic, setIsOptimistic] = useState(true);
-  // const optimisticUIItems = useRef([]);
-
-  // useEffect(() => {
-  //   const createOptimisticUIList = (length) => {
-  //     const array = [];
-
-  //     for (let i = 0; i < length; i++) {
-  //       array.push(
-  //         <View
-  //           style={[
-  //             styles.optimisticItem,
-  //             { width: `${Math.floor(Math.random() * 101) + 25}%` },
-  //           ]}
-  //         />,
-  //       );
-  //     }
-  //     return array;
-  //   };
-  //   optimisticUIItems.current = createOptimisticUIList(10);
-  // }, []);
 
   useEffect(() => {
     getNextLaunches(5, launchesDispatch);
@@ -72,15 +48,6 @@ const LaunchesList = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.view}>
-      {/* {isOptimistic ? (
-        <SafeAreaView style={styles.view}>
-          <FlatList
-            data={optimisticUIItems.current}
-            keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => item}
-          />
-        </SafeAreaView>
-      ) : null} */}
       {launchesStatus && launches ? (
         <FlatList
           style={styles.list}

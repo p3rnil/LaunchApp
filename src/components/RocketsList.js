@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
-  View,
   Text,
   FlatList,
   StyleSheet,
@@ -16,7 +15,6 @@ import {
 } from '../context/index';
 import RocketCard from './rocketCard/index';
 
-//TODO: Make agency card
 const RocketsList = ({ navigation }) => {
   const { rockets, status, error } = useRocketsState();
 
@@ -24,28 +22,6 @@ const RocketsList = ({ navigation }) => {
   const rocketFamiliesDispatch = useRocketFamilyDispatch();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  //const [isOptimistic, setIsOptimistic] = useState(true);
-  //const optimisticUIItems = useRef([]);
-
-  // useEffect(() => {
-  //   const createOptimisticUIList = (length) => {
-  //     const array = [];
-
-  //     for (let i = 0; i < length; i++) {
-  //       array.push(
-  //         <View
-  //           style={[
-  //             styles.optimisticItem,
-  //             { width: `${Math.floor(Math.random() * 101) + 25}%` },
-  //           ]}
-  //         />,
-  //       );
-  //     }
-  //     return array;
-  //   };
-
-  //   optimisticUIItems.current = createOptimisticUIList(45);
-  // }, []);
 
   useEffect(() => {
     getRockets(rocketsDispatch);
@@ -71,16 +47,6 @@ const RocketsList = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.view}>
-      {/* {isOptimistic ? (
-        <SafeAreaView style={styles.view}>
-          <FlatList
-            data={optimisticUIItems.current}
-            keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => item}
-          />
-        </SafeAreaView>
-      ) : null} */}
-
       {status !== 'error' ? (
         <FlatList
           style={styles.list}

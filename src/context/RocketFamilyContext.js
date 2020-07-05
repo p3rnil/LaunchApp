@@ -1,14 +1,10 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { getStoredData, storeData } from './utils';
-import { familyRocketsEndpoint } from './config';
+import { familyRocketsEndpoint, keysStore } from './config';
 import axios from 'axios';
 
 const RocketFamilyStateContext = createContext();
 const RocketFamilyDispatchContext = createContext();
-
-const keysStore = {
-  families: 'rocketFamilies',
-};
 
 const rocketFamilyReducer = (state, action) => {
   switch (action.type) {

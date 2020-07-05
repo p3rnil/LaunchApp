@@ -1,6 +1,7 @@
 // Not in use at all!
 // TODO: Check to remove
 import React, { createContext, useContext, useReducer } from 'react';
+import { agenciesEndpoint } from './config';
 import axios from 'axios';
 
 const AgenciesStateContext = createContext();
@@ -58,7 +59,7 @@ const useAgenciesDispatch = () => {
 const getAgencies = async (dispatch, callback = null) => {
   try {
     dispatch({ type: 'start update' });
-    const response = await axios.get('https://launchlibrary.net/1.4/agency');
+    const response = await axios.get(agenciesEndpoint);
     dispatch({ type: 'finish update', payload: response.data.agencies });
 
     if (callback !== null) {
