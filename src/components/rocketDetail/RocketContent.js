@@ -39,7 +39,11 @@ const RocketContent = ({ data }) => {
         <>
           <View style={styles.section}>
             <Text style={styles.title}>Description: </Text>
-            <Text>{rocket.description}</Text>
+            {rocket.description ? (
+              <Text>{rocket.description}</Text>
+            ) : (
+              <Text>No description :(</Text>
+            )}
           </View>
           <View style={styles.section}>
             <Text style={styles.title}>Agencies: </Text>
